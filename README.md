@@ -26,8 +26,10 @@ Before starting the project, ensure you have Docker installed on your system. Th
 - Leverage PyMuPDF4LLM library
 
 ### 2. Construct Graph Based on Document Components
-
 - Utilize `2-data-transformation.ipynb` notebook
+
+<img src="./images/graph_representation.png" width="800">
+
 - Data cleansing: Remove unnecessary markdown components
 - Separate document components based on markdown headers
 - Chunking process:
@@ -42,13 +44,17 @@ Before starting the project, ensure you have Docker installed on your system. Th
 - Load the generated knowledge base into Neo4j graph database
 
 ### 4. Graph Traversal Logic Simulation (Dev)
-
 - Utilize `4-graph-traversal.ipynb` notebook
+
+![graph-rag-workflow](./images/graph_rag_workflow.png)
+
 - Develop and test graph-based search and inference logic
 
 ### 5. Workflow Configuration (LangGraph)
-
 - Utilize `5-graph-rag-workflow.ipynb` notebook (TBU)
+
+![langgraph](./images/langgraph.jpeg)
+
 - Configure the overall RAG system workflow using LangGraph
 
 ## Dependencies
