@@ -18,7 +18,7 @@ Before starting the project, ensure you have Docker installed on your system. Th
 
 ```./neo4j-install.sh```
 
-## Key Steps
+## 1-Graph-RAG-Hands-on
 
 ### 1. Convert PDF to Markdown
 
@@ -57,8 +57,12 @@ Before starting the project, ensure you have Docker installed on your system. Th
 
 - Configure the overall RAG system workflow using LangGraph
 
+## 2-Graph-RAG-Chatbot
+
+
 ## Dependencies
 
 - PyMuPDF4LLM
 - Neo4j
 - LangGraph
+- Streamlit
