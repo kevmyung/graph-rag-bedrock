@@ -95,7 +95,7 @@ def select_subgraph(state: GraphState) -> GraphState:
     
     model_id = state['support_model']
     selected_id = converse_with_bedrock(global_object['boto3_client'], sys_prompt, usr_prompt, model_id)
-    print(selected_id)
+
     try:
         if selected_id == "":
             return GraphState(target_node=[], subgraph="Not Found", next_step="global_search")
@@ -156,7 +156,6 @@ def traverse_subgraph(state: GraphState) -> GraphState:
 
     full_path = " > ".join([state["parent_name"] for state in state['traverse_state']])
     full_path = f"{full_path} > {parent_name}"
-    print("full_path:", full_path)
 
     child_list_with_number = [f"{i}. {child}" for i, child in enumerate(child_list)]
 #    csv_list_response_format = "Your response should be a list of comma separated values, eg: `foo, bar` or `foo,bar`"
@@ -405,6 +404,7 @@ def check_relevance(state: GraphState) -> GraphState:
     content = state['content']
     contents_length = state['contents_length']
     search_type = state['search_type']
+    subgraph = state['subgraph']
     parent_name = state['parent_name']
     k = state['k']
     optional_prompt1 = ""
@@ -415,28 +415,28 @@ def check_relevance(state: GraphState) -> GraphState:
         optional_prompt2 = "or `Partial`"
 
     sys_prompt_template = """
-    You are a skilled data analyst. Your task is to determine whether the given question can be answered using only the provided preliminary information, based on the following criteria:
+    You are an information analysis expert. Your task is to determine if the provided preliminary information is sufficient to answer the given question.
 
-    Judgment criteria:
-    1. Do the key keywords of the question appear in the document name or preliminary information?
-    2. Does it contain the specific information we're trying to find out?
+    Judgment Criteria:
+    1. Check if key keywords from the question appear in the document name or preliminary information.
+    2. Evaluate if the preliminary information directly addresses the core aspects of the question.
 
-    Response method:
-    - If the document name and preliminary information are irrelevant to the question: 'None'
-    - If the question can be answered with the preliminary information alone: 'Complete'
+    Response:
+    - If the document name and preliminary information are not relevant to the question, respond with 'None'.
+    - If the question can be fully answered with the preliminary information alone, respond with 'Complete'.
     {partial1}
 
     Skip any preamble and respond only with `None` or `Complete`{partial2}.
     """
 
     usr_prompt_template = """
-    #Preliminary information (Document name: {parent_name})
+    #Preliminary information (Document name: {subgraph} / Menu: {parent_name})
     {context}
 
     #Question: {question}
     """
 
-    sys_prompt, usr_prompt = create_prompt(sys_prompt_template, usr_prompt_template, partial1=optional_prompt1, partial2=optional_prompt2, parent_name=parent_name, question=question, context=content)
+    sys_prompt, usr_prompt = create_prompt(sys_prompt_template, usr_prompt_template, partial1=optional_prompt1, partial2=optional_prompt2, subgraph=subgraph, parent_name=parent_name, question=question, context=content)
     model_id = state['core_model']
     response = converse_with_bedrock(global_object['boto3_client'], sys_prompt, usr_prompt, model_id)
     response = response.lower().strip()

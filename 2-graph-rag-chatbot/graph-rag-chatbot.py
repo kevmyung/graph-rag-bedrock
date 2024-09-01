@@ -76,14 +76,13 @@ def process_user_input(prompt: str, container):
         st.session_state.messages.append({"role": "user", "content": prompt})
         with container.chat_message("user"):
             st.markdown(prompt)
+        
         with container.chat_message("assistant"):
             progress_expander = st.expander("View Progress", expanded=True)
             progress_container = progress_expander.container()
-
-            message_placeholder = st.empty()
             response = generate_response(prompt, progress_container)
-            message_placeholder.markdown(response)
-
+            st.markdown(response)
+        
         st.session_state.messages.append({"role": "assistant", "content": response})
 
 def main():
