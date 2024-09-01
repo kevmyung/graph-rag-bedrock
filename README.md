@@ -51,14 +51,20 @@ Before starting the project, ensure you have Docker installed on your system. Th
 - Develop and test graph-based search and inference logic
 
 ### 5. Workflow Configuration (LangGraph)
-- Utilize `5-graph-rag-workflow.ipynb` notebook (TBU)
+- Utilize `5-graph-rag-workflow.ipynb` notebook
 
 ![langgraph](./images/langgraph.jpeg)
 
 - Configure the overall RAG system workflow using LangGraph
 
 ## 2-Graph-RAG-Chatbot
+- Run `graph-rag-chatbot.py` script
+```
+cd 2-graph-rag-chatbot
+streamlit run graph-rag-chatbot.py
+```
 
+![graph-rag-chatbot](./images/graph_rag_chatbot.png)
 
 ## Dependencies
 
